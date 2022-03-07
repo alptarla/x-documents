@@ -1,26 +1,29 @@
-import { nanoid } from 'nanoid'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DocumentCard from '../components/DocumentCard'
 import Header from '../components/Header'
+import DocumentService from '../services/DocumentService'
 import classes from './Dashboard.module.css'
 
-const sampleDocument = {
-  id: nanoid(),
-  title: 'my first document',
-  summary:
-    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-}
-
 function Dashboard() {
+  const [documents, setDocuments] = useState([])
+
+  useEffect(() => {
+    DocumentService.fetchDocuments().then((res) => {
+      setDocuments(res)
+    })
+  }, [])
+
   return (
     <div>
       <Header />
       <main className="container">
         <div className={classes.dashboardMain}>
-          <Link to={`/document/${sampleDocument.id}`}>
-            <DocumentCard document={sampleDocument} />
-          </Link>
+          {documents.map((document) => (
+            <Link to={`/document/${document.id}`} key={document.id}>
+              <DocumentCard document={document} />
+            </Link>
+          ))}
         </div>
       </main>
     </div>

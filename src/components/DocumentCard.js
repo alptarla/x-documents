@@ -5,7 +5,7 @@ function DocumentCard({ document }) {
   return (
     <div className={classes.card}>
       <h1 className={classes.cardTitle}>{document.title}</h1>
-      <p className={classes.cardContent}>{document.summary}</p>
+      <p className={classes.cardContent}>{document.data}</p>
     </div>
   )
 }
