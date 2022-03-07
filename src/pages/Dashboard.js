@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import DocumentCard from '../components/DocumentCard'
 import Header from '../components/Header'
+import PageLoader from '../components/PageLoader'
 import { fetchDocuments } from '../store/documentSlice'
 import classes from './Dashboard.module.css'
 
@@ -14,13 +15,17 @@ function Dashboard() {
     dispatch(fetchDocuments())
   }, [dispatch])
 
+  const handleNewDocument = () => {
+    // TODO: Create new document and redirect to editor page
+  }
+
   return (
     <div>
-      <Header />
+      <Header onNewDocument={handleNewDocument} />
       <main className="container">
         <div className={classes.dashboardMain}>
           {isLoading ? (
-            <div>loading...</div>
+            <PageLoader />
           ) : error ? (
             <div>{error.message}</div>
           ) : (
