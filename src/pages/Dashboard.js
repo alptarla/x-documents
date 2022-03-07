@@ -24,6 +24,7 @@ function Dashboard() {
       id: nanoid(),
       title: DEFAULT_DOCUMENT_TITLE,
       data: '',
+      text: '',
     }
 
     dispatch(createDocument({ document }))

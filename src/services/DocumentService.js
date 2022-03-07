@@ -23,8 +23,10 @@ const DocumentService = {
       ...res.data(),
     }
   },
-  async updateDocument(id, data) {
-    await updateDoc(doc(db, 'documents', id), { data: { ...data } })
+  async updateDocument(id, fields) {
+    await updateDoc(doc(db, 'documents', id), {
+      ...fields,
+    })
   },
 }
 

@@ -18,8 +18,8 @@ const fetchDocumentById = createAsyncThunk(
 )
 const updateDocument = createAsyncThunk(
   'document/updateDocument',
-  ({ id, data }) => {
-    return DocumentService.updateDocument(id, data)
+  ({ id, fields }) => {
+    return DocumentService.updateDocument(id, fields)
   }
 )
 

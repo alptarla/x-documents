@@ -32,7 +32,12 @@ function Editor() {
       if (diff) return
 
       oldContent = content
-      dispatch(updateDocument({ id: documentId, data: content }))
+      dispatch(
+        updateDocument({
+          id: documentId,
+          fields: { data: { ...content }, text: quill.getText() },
+        })
+      )
     }
 
     const timerId = setInterval(handler, SAVE_INTERVAL_MS)
