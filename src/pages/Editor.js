@@ -5,48 +5,42 @@ import { useParams } from 'react-router-dom'
 import useEditor from '../hooks/useEditor'
 import { fetchDocumentById, updateDocument } from '../store/documentSlice'
 
+const SAVE_INTERVAL_MS = 2000
+
 function Editor() {
-  const { editorRef, quill, setQuill } = useEditor()
-  const dispatch = useDispatch()
+  const { editorRef, quill } = useEditor()
   const { id: documentId } = useParams()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchDocumentById({ id: documentId }))
       .unwrap()
-      .then((document) => {
-        if (!quill) return
-
-        quill.enable()
-        quill.setText('')
-        quill.updateContents(document.data)
-        console.log('document.data', document.data)
+      .then(({ data }) => {
+        quill?.enable()
+        quill?.setText('')
+        quill?.updateContents(data)
       })
   }, [documentId, dispatch, quill])
 
   useEffect(() => {
     let oldContent = null
 
-    const timerId = setInterval(() => {
+    const handler = () => {
       const content = quill.getContents()
-      if (JSON.stringify(content) !== JSON.stringify(oldContent)) {
-        console.log(content)
-        oldContent = content
 
-        // TODO: update content from firestore
-        dispatch(updateDocument({ id: documentId, data: content }))
-      }
-    }, 2000)
+      const diff = JSON.stringify(content) === JSON.stringify(oldContent)
+      if (diff) return
 
-    return () => {
-      clearInterval(timerId)
+      oldContent = content
+      dispatch(updateDocument({ id: documentId, data: content }))
     }
+
+    const timerId = setInterval(handler, SAVE_INTERVAL_MS)
+
+    return () => clearInterval(timerId)
   }, [quill, dispatch, documentId])
 
-  return (
-    <div>
-      <main className="editor" ref={editorRef}></main>
-    </div>
-  )
+  return <main className="editor" ref={editorRef}></main>
 }
 
 export default Editor
