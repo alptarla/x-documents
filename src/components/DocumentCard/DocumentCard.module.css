@@ -1,6 +1,6 @@
 .card {
   max-width: 300px;
-  min-height: 300px;
+  max-height: 300px;
   padding: 1rem;
   border: 1px solid #333;
   border-radius: 0.5rem;
@@ -9,7 +9,7 @@
 }
 
 .card:hover {
-  background-color: #efefef;
+  background-color: white;
 }
 
 .cardTitle {
@@ -19,4 +19,8 @@
 
 .cardContent {
   margin: 0.5rem 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
