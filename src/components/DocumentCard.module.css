@@ -1,0 +1,22 @@
+.card {
+  max-width: 300px;
+  min-height: 300px;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: 0.2s ease-in background-color;
+}
+
+.card:hover {
+  background-color: #efefef;
+}
+
+.cardTitle {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.cardContent {
+  margin: 0.5rem 0;
+}
