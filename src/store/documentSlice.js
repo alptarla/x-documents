@@ -53,8 +53,8 @@ const documentSlice = createSlice({
       state.isLoading = false
       state.error = null
     },
-    [createDocument.rejected](state, action) {
-      state.error = action.error.message
+    [createDocument.rejected](state, { error }) {
+      state.error = error.message
       state.isLoading = false
     },
     [fetchDocumentById.pending](state) {
@@ -65,21 +65,12 @@ const documentSlice = createSlice({
       state.isLoading = false
       state.error = null
     },
-    [fetchDocumentById.rejected](state, action) {
-      state.error = action.error.message
+    [fetchDocumentById.rejected](state, { error }) {
+      state.error = error.message
       state.isLoading = false
-    },
-    [updateDocument.pending](state) {
-      state.isLoading = true
-    },
-    [updateDocument.fulfilled](state, { meta }) {
-      state.documents = state.documents.map((doc) => {
-        return doc.id === meta.arg.id ? { ...doc, data: meta.arg.data } : doc
-      })
     },
     [updateDocument.rejected](state, action) {
       state.error = action.error.message
-      state.isLoading = false
     },
   },
 })
