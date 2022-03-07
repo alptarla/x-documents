@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import DocumentCard from './DocumentCard'
+import DocumentCard from '../DocumentCard/DocumentCard'
 import classes from './DocumentList.module.css'
 
 function DocumentList({ documents }) {
