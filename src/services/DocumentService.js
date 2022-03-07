@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from '../config/firebaseConfig'
 
 const DocumentService = {
@@ -8,6 +8,13 @@ const DocumentService = {
   },
   async createDocument(document) {
     await setDoc(doc(db, 'documents', document.id), document)
+  },
+  async fetchDocumentById(docId) {
+    const res = await getDoc(doc(db, 'documents', docId))
+    return {
+      id: res.id,
+      ...res.data(),
+    }
   },
 }
 
