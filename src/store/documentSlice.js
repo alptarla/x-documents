@@ -69,6 +69,14 @@ const documentSlice = createSlice({
       state.error = error.message
       state.isLoading = false
     },
+    [updateDocument.fulfilled](state, { meta }) {
+      const { id, fields } = meta.arg
+      state.documents = state.documents.map((doc) => {
+        return doc.id === id ? { ...doc, ...fields } : doc
+      })
+
+      state.isLoading = false
+    },
     [updateDocument.rejected](state, action) {
       state.error = action.error.message
     },

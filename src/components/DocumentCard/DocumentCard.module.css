@@ -12,12 +12,36 @@
   background-color: white;
 }
 
-.cardTitle {
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editButton {
+  visibility: hidden;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.editInput {
+  padding: 0.5rem;
+  border: none;
+  background-color: transparent;
+}
+
+.cardHeader > h1 {
   font-size: 1.3rem;
   text-align: center;
 }
 
-.cardContent {
+.cardHeader:hover > .editButton {
+  visibility: visible;
+}
+
+.cardMain p {
   margin: 0.5rem 0;
   max-width: 100%;
   white-space: nowrap;

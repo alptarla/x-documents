@@ -1,15 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { updateDocument } from '../../store/documentSlice'
 import DocumentCard from '../DocumentCard/DocumentCard'
 import classes from './DocumentList.module.css'
 
 function DocumentList({ documents }) {
+  const dispatch = useDispatch()
+  const handleUpdateDocument = ({ id, ...rest }) => {
+    return dispatch(updateDocument({ id, fields: { ...rest } })).unwrap()
+  }
+
   return (
     <div className={classes.documents}>
       {documents.map((document) => (
-        <Link to={`/document/${document.id}`} key={document.id}>
-          <DocumentCard document={document} />
-        </Link>
+        <DocumentCard
+          document={document}
+          key={document.id}
+          onUpdate={handleUpdateDocument}
+        />
       ))}
     </div>
   )
