@@ -16,6 +16,12 @@ const fetchDocumentById = createAsyncThunk(
     return DocumentService.fetchDocumentById(id)
   }
 )
+const updateDocument = createAsyncThunk(
+  'document/updateDocument',
+  ({ id, data }) => {
+    return DocumentService.updateDocument(id, data)
+  }
+)
 
 const documentSlice = createSlice({
   name: 'documentSlice',
@@ -63,8 +69,20 @@ const documentSlice = createSlice({
       state.error = action.error.message
       state.isLoading = false
     },
+    [updateDocument.pending](state) {
+      state.isLoading = true
+    },
+    [updateDocument.fulfilled](state, { meta }) {
+      state.documents = state.documents.map((doc) => {
+        return doc.id === meta.arg.id ? { ...doc, data: meta.arg.data } : doc
+      })
+    },
+    [updateDocument.rejected](state, action) {
+      state.error = action.error.message
+      state.isLoading = false
+    },
   },
 })
 
 export default documentSlice.reducer
-export { fetchDocuments, createDocument, fetchDocumentById }
+export { fetchDocuments, createDocument, fetchDocumentById, updateDocument }

@@ -1,4 +1,11 @@
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore'
 import { db } from '../config/firebaseConfig'
 
 const DocumentService = {
@@ -15,6 +22,9 @@ const DocumentService = {
       id: res.id,
       ...res.data(),
     }
+  },
+  async updateDocument(id, data) {
+    await updateDoc(doc(db, 'documents', id), { data: { ...data } })
   },
 }
 
