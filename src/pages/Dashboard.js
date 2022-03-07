@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import DocumentCard from '../components/DocumentCard'
 import Header from '../components/Header'
-import DocumentService from '../services/DocumentService'
+import { fetchDocuments } from '../store/documentSlice'
 import classes from './Dashboard.module.css'
 
 function Dashboard() {
-  const [documents, setDocuments] = useState([])
+  const { documents, isLoading, error } = useSelector((state) => state.document)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    DocumentService.fetchDocuments().then((res) => {
-      setDocuments(res)
-    })
-  }, [])
+    dispatch(fetchDocuments())
+  }, [dispatch])
 
   return (
     <div>
       <Header />
       <main className="container">
         <div className={classes.dashboardMain}>
-          {documents.map((document) => (
-            <Link to={`/document/${document.id}`} key={document.id}>
-              <DocumentCard document={document} />
-            </Link>
-          ))}
+          {isLoading ? (
+            <div>loading...</div>
+          ) : error ? (
+            <div>{error.message}</div>
+          ) : (
+            documents.map((document) => (
+              <Link to={`/document/${document.id}`} key={document.id}>
+                <DocumentCard document={document} />
+              </Link>
+            ))
+          )}
         </div>
       </main>
     </div>
