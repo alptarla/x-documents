@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import DocumentCard from '../components/DocumentCard'
+import { useNavigate } from 'react-router-dom'
+import Alert from '../components/Alert'
+import DocumentList from '../components/DocumentList'
 import Header from '../components/Header'
 import PageLoader from '../components/PageLoader'
 import { createDocument, fetchDocuments } from '../store/documentSlice'
-import classes from './Dashboard.module.css'
 
 const DEFAULT_DOCUMENT_TITLE = 'Unnamed'
 
@@ -33,24 +33,18 @@ function Dashboard() {
       })
   }
 
+  const renderContent = () => {
+    if (isLoading) return <PageLoader />
+    if (error) return <Alert message={error} type="error" />
+    if (!documents.length)
+      return <Alert message="No documents yet, create one!" type="warning" />
+    return <DocumentList documents={documents} />
+  }
+
   return (
     <div>
       <Header onNewDocument={handleNewDocument} />
-      <main className="container">
-        <div className={classes.dashboardMain}>
-          {isLoading ? (
-            <PageLoader />
-          ) : error ? (
-            <div>{error.message}</div>
-          ) : (
-            documents.map((document) => (
-              <Link to={`/document/${document.id}`} key={document.id}>
-                <DocumentCard document={document} />
-              </Link>
-            ))
-          )}
-        </div>
-      </main>
+      <main className="container">{renderContent()}</main>
     </div>
   )
 }
